@@ -1,0 +1,107 @@
+@Metadata.layer: #CORE
+@Search.searchable: true
+@UI: {
+  headerInfo: {
+    typeName: 'Sales Order Item',
+    typeNamePlural: 'Sales Order Items',
+    title: {
+        type: #STANDARD,
+        value: 'POS' }
+               }
+     }
+annotate entity Z_C_SOI_6582 with
+{
+
+ @UI.facet: [{ id: 'SalesOrderI',
+                 purpose: #STANDARD,
+                 type: #IDENTIFICATION_REFERENCE ,
+                 label: 'Sales Order Items',
+                 position: 10 }]
+                
+  @UI: {
+  lineItem: [{
+   position: 10,
+   importance: #HIGH }],
+  identification: [{ position: 10, label: 'Sales order ID 
+[1,...,99999999]'}]}
+  @Search.defaultSearchElement: true
+
+  Id;
+  @UI: {
+  lineItem: [ { position: 20, importance: #HIGH } ],
+  identification: [ { position: 20 } ],
+  selectionField: [ { position: 20 } ]   }
+  Pos;
+
+  @UI: {
+    lineItem: [ { position: 30, importance: #HIGH } ],
+    identification: [ { position: 30 } ],
+    selectionField: [ { position: 30 } ]
+  }
+  Name;
+
+  @UI: {
+    lineItem: [ { position: 40, importance: #HIGH } ],
+    identification: [ { position: 40 } ],
+    selectionField: [ { position: 40 } ]
+  }
+  Description;
+
+  @UI: {
+    lineItem: [ { position: 50, importance: #HIGH } ],
+    identification: [ { position: 50 } ],
+    selectionField: [ { position: 50 } ]
+  }
+  Releasedate;
+
+  @UI: {
+    lineItem: [ { position: 60, importance: #HIGH } ],
+    identification: [ { position: 60 } ],
+    selectionField: [ { position: 60 } ]
+  }
+  Discontinuedate;
+
+  @UI: {
+    lineItem: [ { position: 70, importance: #HIGH } ],
+    identification: [ { position: 70 } ],
+    selectionField: [ { position: 70 } ]
+  }
+  Price;
+
+  @UI: {
+    lineItem: [ { position: 80, importance: #HIGH } ],
+    identification: [ { position: 80 } ],
+    selectionField: [ { position: 80 } ]
+  }
+  Height;
+
+  @UI: {
+    lineItem: [ { position: 90, importance: #HIGH } ],
+    identification: [ { position: 90 } ],
+    selectionField: [ { position: 90 } ]
+  }
+  Width;
+
+  @UI: {
+    lineItem: [ { position: 100, importance: #HIGH } ],
+    identification: [ { position: 100 } ],
+    selectionField: [ { position: 100 } ]
+  }
+  Unit;
+
+  @UI: {
+    lineItem: [ { position: 110, importance: #HIGH } ],
+    identification: [ { position: 110 } ],
+    selectionField: [ { position: 110 } ]
+  }
+  Depth;
+
+  @UI: {
+    lineItem: [ { position: 120, importance: #HIGH } ],
+    identification: [ { position: 120 } ],
+    selectionField: [ { position: 120 } ]
+  }
+  Quantity;
+
+
+}

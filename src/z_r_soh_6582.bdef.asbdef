@@ -1,0 +1,111 @@
+managed implementation in class zbp_r_soh_6582 unique;
+strict ( 2 );
+with draft;
+
+define behavior for Z_R_SOH_6582 alias _SalesOrder
+persistent table zsoh_6582
+lock master
+total etag CreatedAt
+draft table zsohd_6582
+etag master LastChangedAt
+authorization master ( instance, global )
+//etag master <field_name>
+{
+  create ( precheck );
+  update;
+  delete;
+  association _Item { create ( features : instance ); with draft; }
+
+  field ( readonly ) Id,
+                      CreatedAt,
+                      CreatedBy,
+                      LastChangedAt,
+                      LastChangedBy,
+                      Orderstatus;
+
+  field (mandatory) Firstname,
+                      Email,
+                      Lastname,
+                      Creation,
+                      Deliverydate,
+                      Country;
+
+
+  determination SetSaleOrderId on save { create; }
+  determination SetStatus on modify { create; }
+
+  action(features : instance, authorization : update) AcceptOrder result [1] $self;
+  action(features : instance, authorization : update) RejecttOrder result [1] $self;
+  action(features : instance, authorization : update) FinishtOrder result [1] $self;
+
+  validation  validateEmail on save { create; field Email;}
+
+ draft action Activate optimized;
+ draft action Discard;
+ draft action Edit;
+ draft action Resume;
+
+ draft determine action Prepare {
+
+ }
+
+
+  mapping for zsoh_6582
+    {
+      Id           = id;
+      Email        = email;
+      Firstname    = firstname;
+      Lastname     = lastname;
+      Country      = country;
+      Creation     = creation;
+      Deliverydate = deliverydate;
+      Orderstatus  = orderstatus;
+      Imageurl     = imageurl;
+    }
+}
+
+define behavior for Z_R_SOI_6582 alias SalesOrderItem
+persistent table zsoi_6582
+draft table zsoid_6582
+lock dependent by __HEADER
+authorization dependent by __HEADER
+//etag master <field_name>
+{
+  update;
+  delete;
+
+  association __HEADER;
+
+    field ( readonly ) Id,
+                       pos,
+                      CreatedAt,
+                      CreatedBy,
+                      LastChangedAt,
+                      LastChangedBy;
+
+  field (mandatory) Name,
+                    Price,
+                    quantity,
+                    Unit;
+
+
+
+
+
+
+  mapping for zsoi_6582
+    {
+      Id              = id;
+      Pos             = pos;
+      Name            = name;
+      Description     = description;
+      Releasedate     = releasedate;
+      Discontinuedate = discontinuedate;
+      Price           = price;
+      Height          = height;
+      Width           = width;
+      Unit            = unit_field;
+      Depth           = depth;
+      Quantity        = quantity;
+    }
+}

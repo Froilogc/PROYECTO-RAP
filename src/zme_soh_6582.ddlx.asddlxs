@@ -1,0 +1,82 @@
+@Metadata.layer: #CORE
+@Search.searchable: true
+@UI: {
+  headerInfo: {
+    typeName: 'Sales Order',
+    typeNamePlural: 'Sales Orders',
+    title: {
+        type: #STANDARD,
+        value: 'Id' }
+               }
+     }
+annotate entity Z_C_SOH_6582
+    with 
+{
+  @UI.facet: [{ id: 'SalesOrder',
+                 purpose: #STANDARD,
+                 type: #IDENTIFICATION_REFERENCE ,
+                 label: 'Sales Order',
+                 position: 10 },
+                { id : 'Item',
+                  purpose: #STANDARD,
+                  type: #LINEITEM_REFERENCE,
+                  label: 'Item',
+                  position: 20,targetElement:
+  '_Item' }]
+  
+  
+  @UI: {
+  lineItem: [{
+      position: 10,
+      importance: #HIGH }],
+  identification: [{ position: 10, label: 'Sales order ID 
+[1,...,99999999]'}]}
+@Search.defaultSearchElement: true
+
+   Id;
+    @UI: {
+  lineItem: [ { position: 20, importance: #HIGH } ],
+  identification: [ { position: 20 } ],
+  selectionField: [ { position: 20 } ]   }
+    Email;
+        @UI: {
+  lineItem: [ { position: 30, importance: #HIGH } ],
+  identification: [ { position: 30 } ],
+  selectionField: [ { position: 30 } ]   }
+    Firstname;
+        @UI: {
+  lineItem: [ { position: 40, importance: #HIGH } ],
+  identification: [ { position: 40 } ],
+  selectionField: [ { position: 40 } ]   }
+    Lastname;
+        @UI: {
+  lineItem: [ { position: 50, importance: #HIGH } ],
+  identification: [ { position: 50 } ],
+  selectionField: [ { position: 50 } ]   }
+    Country;
+        @UI: {
+  lineItem: [ { position: 60, importance: #HIGH } ],
+  identification: [ { position: 60 } ],
+  selectionField: [ { position: 60 } ]   }
+    Creation;
+        @UI: {
+  lineItem: [ { position: 70, importance: #HIGH } ],
+  identification: [ { position: 70 } ],
+  selectionField: [ { position: 70 } ]   }
+    Deliverydate;
+        @UI: {
+  lineItem: [ { position: 80, importance: #HIGH } ],
+  identification: [ { position: 80 } ],
+  selectionField: [ { position: 80 } ]   }
+    Orderstatus;
+        @UI: {
+  lineItem: [ { position: 90, importance: #HIGH } ],
+  identification: [ { position: 90 } ],
+  selectionField: [ { position: 90 } ]   }
+    Imageurl;
+   
+   
+  
+   
+    
+}
