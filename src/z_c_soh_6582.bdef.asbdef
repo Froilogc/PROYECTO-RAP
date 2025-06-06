@@ -18,6 +18,7 @@ define behavior for Z_C_SOH_6582 //alias <alias_name>
   use action Resume;
   use action Prepare;
 
+  use action cretateSalesOrdeByTemple;
   use association _Item { create; with draft; }
 }
 

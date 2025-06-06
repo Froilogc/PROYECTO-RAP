@@ -16,7 +16,7 @@ define behavior for Z_I_SOH_6582 alias _SalesOrder
   use action Edit;
   use action Resume;
   use action Prepare;
-
+  use action cretateSalesOrdeByTemple;
   use association _Item { create; with draft; }
 }
 

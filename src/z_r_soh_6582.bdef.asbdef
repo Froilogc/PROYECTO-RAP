@@ -17,21 +17,20 @@ authorization master ( instance, global )
   delete;
   association _Item {  create ; with draft; }
 
-  field ( readonly )  id,
-                      CreatedAt,
+  field ( readonly )   CreatedAt,
                       CreatedBy,
                       LastChangedAt,
                       LastChangedBy,
                       Orderstatus;
 
-  field (mandatory) Firstname,
+  field ( mandatory ) Firstname,
                       Email,
                       Lastname,
                       Creation,
                       Deliverydate,
                       Country;
 
-    //field(features : instance) id;
+  field(features : instance) id;
 
 
   //determination SetSaleOrderId on save { create; }
@@ -40,6 +39,8 @@ authorization master ( instance, global )
   action(features : instance, authorization : update) AcceptOrder result [1] $self;
   action(features : instance, authorization : update) RejecttOrder result [1] $self;
   action(features : instance, authorization : update) FinishtOrder result [1] $self;
+
+  action cretateSalesOrdeByTemple result[1] $self;
   validation  validateEmail on save { create; field Email;}
 
  draft action Activate optimized;
@@ -80,13 +81,13 @@ authorization dependent by __HEADER
   association __HEADER {  with draft;  }
 
     field ( readonly ) Id,
-                      POs,
                       CreatedAt,
                       CreatedBy,
                       LastChangedAt,
                       LastChangedBy;
 
-  field (mandatory) Name,
+  field (mandatory ) POs,
+                    Name,
                     Price,
                     quantity,
                     Unit;

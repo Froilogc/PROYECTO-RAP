@@ -70,9 +70,11 @@ annotate entity Z_C_SOH_6582
   selectionField: [ { position: 80 } ]   }
     Orderstatus;
         @UI: {
-  lineItem: [ { position: 90, importance: #HIGH } ],
-  identification: [ { position: 90 } ],
+  lineItem: [ { position: 90, importance: #HIGH },{ type: #FOR_ACTION, 
+  dataAction: 'cretateSalesOrdeByTemple', label: 'Create by Template'} ],
+  identification: [ { position: 90, label: 'Satus 1 Open|2 in progress|3 Finished'} ],
   selectionField: [ { position: 90 } ]   }
+  
     Imageurl;
    
    
