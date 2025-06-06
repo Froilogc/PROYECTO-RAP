@@ -1,8 +1,9 @@
-managed implementation in class zbp_r_soh_6582 unique;
+managed;
 strict ( 2 );
 with draft;
 
 define behavior for Z_R_SOH_6582 alias _SalesOrder
+implementation in class zbp_r_soh_6582 unique
 persistent table zsoh_6582
 lock master
 total etag CreatedAt
@@ -14,9 +15,9 @@ authorization master ( instance, global )
   create ( precheck );
   update;
   delete;
-  association _Item { create ( features : instance ); with draft; }
+  association _Item {  create ; with draft; }
 
-  field ( readonly ) Id,
+  field ( readonly )  id,
                       CreatedAt,
                       CreatedBy,
                       LastChangedAt,
@@ -30,14 +31,15 @@ authorization master ( instance, global )
                       Deliverydate,
                       Country;
 
+    //field(features : instance) id;
 
-  determination SetSaleOrderId on save { create; }
+
+  //determination SetSaleOrderId on save { create; }
   determination SetStatus on modify { create; }
 
   action(features : instance, authorization : update) AcceptOrder result [1] $self;
   action(features : instance, authorization : update) RejecttOrder result [1] $self;
   action(features : instance, authorization : update) FinishtOrder result [1] $self;
-
   validation  validateEmail on save { create; field Email;}
 
  draft action Activate optimized;
@@ -65,6 +67,7 @@ authorization master ( instance, global )
 }
 
 define behavior for Z_R_SOI_6582 alias SalesOrderItem
+implementation in class zbp_r_SOI_6582 unique
 persistent table zsoi_6582
 draft table zsoid_6582
 lock dependent by __HEADER
@@ -74,10 +77,10 @@ authorization dependent by __HEADER
   update;
   delete;
 
-  association __HEADER;
+  association __HEADER {  with draft;  }
 
     field ( readonly ) Id,
-                       pos,
+                      POs,
                       CreatedAt,
                       CreatedBy,
                       LastChangedAt,
@@ -89,7 +92,7 @@ authorization dependent by __HEADER
                     Unit;
 
 
-
+    //field(features : instance) pos;
 
 
 

@@ -1,0 +1,30 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for Z_C_SOH_6582 //alias <alias_name>
+{
+  use create;
+  use update;
+  use delete;
+
+  use action AcceptOrder;
+  use action RejecttOrder;
+  use action FinishtOrder;
+
+  use action Activate;
+  use action Discard;
+  use action Edit;
+  use action Resume;
+  use action Prepare;
+
+  use association _Item { create; with draft; }
+}
+
+define behavior for Z_C_SOI_6582 //alias <alias_name>
+{
+  use update;
+  use delete;
+
+  use association __HEADER;
+}
