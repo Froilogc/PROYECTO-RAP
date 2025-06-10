@@ -10,9 +10,11 @@ define view entity Z_I_SOI_6582 as projection on Z_R_SOI_6582
     Releasedate,
     Discontinuedate,
     Price,
-    @Semantics.quantity.unitOfMeasure: 'Unit'
+  @Semantics.quantity.unitOfMeasure: 'Unit'
+    
     Height,
-    @Semantics.quantity.unitOfMeasure: 'Unit'
+ @Semantics.quantity.unitOfMeasure: 'Unit'
+ 
     Width,
     Unit,
     Depth,

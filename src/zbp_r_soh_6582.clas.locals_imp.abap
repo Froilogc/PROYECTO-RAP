@@ -10,11 +10,19 @@ CLASS lhc__SalesOrder DEFINITION INHERITING FROM cl_abap_behavior_handler.
     METHODS get_global_authorizations FOR GLOBAL AUTHORIZATION
       IMPORTING REQUEST requested_authorizations FOR _SalesOrder RESULT result.
 
-    METHODS precheck_create FOR PRECHECK
-      IMPORTING entities FOR CREATE _SalesOrder.
+*    METHODS earlynumbering_create FOR NUMBERING
+*      IMPORTING entities FOR CREATE _SalesOrder.
+
+
+
+*    METHODS earlynumbering_cba_Item FOR NUMBERING
+*      IMPORTING entities FOR CREATE _SalesOrder\_Item.
 
     METHODS AcceptOrder FOR MODIFY
       IMPORTING keys FOR ACTION _SalesOrder~AcceptOrder RESULT result.
+
+    METHODS cretateSalesOrdeByTemple FOR MODIFY
+      IMPORTING keys FOR ACTION _SalesOrder~cretateSalesOrdeByTemple RESULT result.
 
     METHODS FinishtOrder FOR MODIFY
       IMPORTING keys FOR ACTION _SalesOrder~FinishtOrder RESULT result.
@@ -27,23 +35,12 @@ CLASS lhc__SalesOrder DEFINITION INHERITING FROM cl_abap_behavior_handler.
 
     METHODS validateEmail FOR VALIDATE ON SAVE
       IMPORTING keys FOR _SalesOrder~validateEmail.
-    METHODS cretateSalesOrdeByTemple FOR MODIFY
-      IMPORTING keys FOR ACTION _SalesOrder~cretateSalesOrdeByTemple RESULT result.
 
 ENDCLASS.
 
 CLASS lhc__SalesOrder IMPLEMENTATION.
 
   METHOD get_instance_features.
-    READ ENTITIES OF z_r_soh_6582 IN LOCAL MODE
-    ENTITY _SalesOrder
-    FIELDS ( Id Orderstatus )
-    WITH VALUE #( FOR row_key IN keys (  %key = row_key-%key ) )
-    RESULT DATA(lt_entity_SalesOrder).
-
-   result = VALUE #( for ls_salesorder in lt_entity_SalesOrder ( %key = ls_salesorder-%key
-   %field-Id = if_abap_behv=>fc-f-read_only ) ).
-
   ENDMETHOD.
 
   METHOD get_instance_authorizations.
@@ -52,27 +49,62 @@ CLASS lhc__SalesOrder IMPLEMENTATION.
   METHOD get_global_authorizations.
   ENDMETHOD.
 
-  METHOD precheck_create.
-  ENDMETHOD.
+*  METHOD earlynumbering_create.
+*
+*    DATA(lt_entities) = entities.
+*
+*
+*    DELETE lt_entities WHERE Id IS NOT INITIAL.
+*
+*    SELECT SINGLE FROM zsoh_6582
+*            FIELDS MAX( id )
+*            INTO @DATA(LV_OrderId).
+*
+*
+*    LV_OrderId = LV_OrderId + 1.
+*
+*
+**    APPEND VALUE #(  %cid = lt_entities[ 1 ]-%cid
+**    Id = LV_OrderId  ) TO mapped-_salesorder.
+*
+*
+*    LOOP AT entities ASSIGNING FIELD-SYMBOL(<ls_entity>).
+*      INSERT VALUE #( %cid            = <ls_entity>-%cid
+*                      id  = LV_OrderId  ) INTO TABLE mapped-_salesorder.
+*    ENDLOOP.
+*
+*
+*
+*
+*  ENDMETHOD.
+*
+*
+*  METHOD earlynumbering_cba_Item.
+*
+*    DATA(lt_entities) = entities.
+*
+*    DELETE lt_entities WHERE Id IS NOT INITIAL.
+*
+**
+*    SELECT SINGLE FROM zsoi_6582
+*            FIELDS MAX( pos )
+*            INTO @DATA(LV_pos).
+**
+**
+*    LV_pos = LV_pos + 1.
+**
+*    mapped-salesorderitem = VALUE #( ( %cid = lt_entities[ 1 ]-%cid_ref
+*                    id = lt_entities[ 1 ]-id
+*                    Pos = lv_pos ) ).
+**
+**                             append VALUE #(  %cid = lt_entities[ 1 ]-%cid
+**                             Pos = LV_OrderId  ) to mapped-salesorderitem.
+*  ENDMETHOD.
 
   METHOD AcceptOrder.
   ENDMETHOD.
 
-  METHOD FinishtOrder.
-  ENDMETHOD.
-
-  METHOD RejecttOrder.
-  ENDMETHOD.
-
-  METHOD SetStatus.
-  ENDMETHOD.
-
-  METHOD validateEmail.
-
-  ENDMETHOD.
-
   METHOD cretateSalesOrdeByTemple.
-
 
     READ ENTITIES OF z_r_soh_6582 IN LOCAL MODE
     ENTITY _SalesOrder
@@ -89,16 +121,16 @@ CLASS lhc__SalesOrder IMPLEMENTATION.
     DATA(lv_today) = cl_abap_context_info=>get_system_date(  ).
 
 
-DATA LV_ID_S TYPE int4.
+    DATA lv_id_s TYPE int4.
 
-LV_ID_S = lv_id.
+    lv_id_s = lv_id.
 
 
-   "LV_ID_S = TO_STRING (lv_id , '00').
+    "LV_ID_S = TO_STRING (lv_id , '00').
     lt_create_salesorder = VALUE #( FOR create_row IN lt_entity_SalesOrder INDEX INTO idx
 
     ( %cid =  lv_id + idx
-    Id =   LV_ID_S + idx
+    Id =   lv_id_s + idx
     Country = create_row-Country
     Creation = lv_today
     Deliverydate = create_row-Deliverydate
@@ -135,11 +167,18 @@ LV_ID_S = lv_id.
     %key = keys[ idx ]-%key
     %param = CORRESPONDING #(
     result_row ) ) ).
+  ENDMETHOD.
 
+  METHOD FinishtOrder.
+  ENDMETHOD.
 
+  METHOD RejecttOrder.
+  ENDMETHOD.
 
+  METHOD SetStatus.
+  ENDMETHOD.
 
-
+  METHOD validateEmail.
   ENDMETHOD.
 
 ENDCLASS.
